@@ -1,9 +1,15 @@
 package pl.itj.dev.todographqlapi.model;
 
+import io.leangen.graphql.annotations.GraphQLComplexity;
 import io.leangen.graphql.annotations.GraphQLEnumValue;
 import io.leangen.graphql.annotations.GraphQLQuery;
+import io.leangen.graphql.annotations.GraphQLTypeResolver;
+import io.leangen.graphql.annotations.types.GraphQLInterface;
+import io.leangen.graphql.annotations.types.GraphQLType;
 import lombok.Data;
 import org.hibernate.annotations.Type;
+import pl.itj.dev.todographqlapi.services.ifc.UserService;
+import pl.itj.dev.todographqlapi.services.impl.UserServiceImpl;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -11,6 +17,7 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "TICKETS")
+@GraphQLType(name = "Ticket")
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,4 +35,8 @@ public class Ticket {
     @GraphQLQuery(name = "priority", description = "Ticket's priority")
     @GraphQLEnumValue
     private Priority priority;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

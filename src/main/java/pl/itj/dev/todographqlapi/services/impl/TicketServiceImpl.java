@@ -1,10 +1,12 @@
 package pl.itj.dev.todographqlapi.services.impl;
 
+import io.leangen.graphql.annotations.GraphQLContext;
 import io.leangen.graphql.annotations.GraphQLQuery;
 import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
 import org.springframework.stereotype.Service;
 import pl.itj.dev.todographqlapi.exceptions.data.TicketNotFoundException;
 import pl.itj.dev.todographqlapi.model.Ticket;
+import pl.itj.dev.todographqlapi.model.User;
 import pl.itj.dev.todographqlapi.repositories.TicketRepository;
 import pl.itj.dev.todographqlapi.services.ifc.TicketService;
 
@@ -30,5 +32,11 @@ public class TicketServiceImpl implements TicketService {
     @GraphQLQuery(name = "tickets", description = "Get all tickets")
     public Iterable<Ticket> fetchAllTickets() {
         return ticketRepository.findAll();
+    }
+
+    @Override
+    @GraphQLQuery(name = "user", description = "User which created ticket")
+    public User fetchUserForTicketId(@GraphQLContext Ticket ticket) {
+        return ticket.getUser();
     }
 }
