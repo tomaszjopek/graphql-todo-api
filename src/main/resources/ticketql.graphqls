@@ -1,0 +1,15 @@
+type Query {
+#    ticketById(id: ID): Ticket
+    
+}
+
+type TicketsQueries {
+    allTickets: [Ticket]
+}
+
+type Ticket {
+    id: ID!
+    title: String
+    description: String
+    priority: String
+}
