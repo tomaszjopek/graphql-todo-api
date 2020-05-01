@@ -14,3 +14,8 @@ spring:
   h2:
     console:
       enabled: true
+
+graphql:
+  spqr:
+    gui:
+      enabled: true
