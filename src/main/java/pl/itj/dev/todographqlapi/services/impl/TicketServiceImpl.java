@@ -1,8 +1,10 @@
 package pl.itj.dev.todographqlapi.services.impl;
 
+import com.google.common.base.Stopwatch;
 import io.leangen.graphql.annotations.GraphQLContext;
 import io.leangen.graphql.annotations.GraphQLQuery;
 import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.itj.dev.todographqlapi.exceptions.data.TicketNotFoundException;
 import pl.itj.dev.todographqlapi.model.Ticket;
@@ -14,6 +16,7 @@ import java.util.UUID;
 
 @Service
 @GraphQLApi
+@Slf4j
 public class TicketServiceImpl implements TicketService {
 
     private final TicketRepository ticketRepository;
@@ -25,18 +28,27 @@ public class TicketServiceImpl implements TicketService {
     @Override
     @GraphQLQuery(name = "ticketById", description = "Get ticket by id")
     public Ticket fetchTicketById(UUID id) throws TicketNotFoundException {
-        return ticketRepository.findById(id).orElseThrow(() -> new TicketNotFoundException(id, Ticket.class));
+        Stopwatch timer = Stopwatch.createStarted();
+        var ticket = ticketRepository.findById(id).orElseThrow(() -> new TicketNotFoundException(id, Ticket.class));
+        log.info("[fetchTicketById] Method took: {}", timer.stop());
+        return ticket;
     }
 
     @Override
     @GraphQLQuery(name = "tickets", description = "Get all tickets")
     public Iterable<Ticket> fetchAllTickets() {
-        return ticketRepository.findAll();
+        Stopwatch timer = Stopwatch.createStarted();
+        var tickets = ticketRepository.findAll();
+        log.info("[fetchAllTickets] Method took: {}", timer.stop());
+        return tickets;
     }
 
     @Override
     @GraphQLQuery(name = "user", description = "User which created ticket")
     public User fetchUserForTicketId(@GraphQLContext Ticket ticket) {
-        return ticket.getUser();
+        Stopwatch timer = Stopwatch.createStarted();
+        var user = ticket.getUser();
+        log.info("[fetchUserForTicketId] Method took: {}", timer.stop());
+        return user;
     }
 }

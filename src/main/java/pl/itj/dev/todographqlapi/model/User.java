@@ -1,17 +1,26 @@
 package pl.itj.dev.todographqlapi.model;
 
+import io.leangen.graphql.annotations.GraphQLComplexity;
 import io.leangen.graphql.annotations.GraphQLQuery;
+import io.leangen.graphql.annotations.types.GraphQLDirective;
 import io.leangen.graphql.annotations.types.GraphQLType;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Table(name = "USERS")
-@Data
+@Getter
+@Setter
 @GraphQLType(name = "User")
 public class User {
 
@@ -25,6 +34,7 @@ public class User {
     private String username;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private Set<Ticket> tickets;
-
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 10)
+    private Set<Ticket> tickets = new HashSet<>();
 }

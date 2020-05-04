@@ -1,8 +1,14 @@
 package pl.itj.dev.todographqlapi.services.impl;
 
+import com.google.common.base.Stopwatch;
+import io.leangen.graphql.annotations.GraphQLContext;
+import io.leangen.graphql.annotations.GraphQLEnvironment;
 import io.leangen.graphql.annotations.GraphQLQuery;
+import io.leangen.graphql.execution.ResolutionEnvironment;
 import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import pl.itj.dev.todographqlapi.exceptions.data.UserNotFoundException;
 import pl.itj.dev.todographqlapi.model.Ticket;
 import pl.itj.dev.todographqlapi.model.User;
 import pl.itj.dev.todographqlapi.repositories.UserRepository;
@@ -12,9 +18,10 @@ import java.util.UUID;
 
 @Service
 @GraphQLApi
+@Slf4j
 public class UserServiceImpl implements UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -23,16 +30,27 @@ public class UserServiceImpl implements UserService {
     @Override
     @GraphQLQuery(name = "users", description = "Get all users query")
     public Iterable<User> fetchAllUsers() {
-        return userRepository.findAll();
+        Stopwatch timer = Stopwatch.createStarted();
+        var users = userRepository.findAll();
+        log.info("[fetchAllUsers] Method took: {}", timer.stop());
+        return users;
     }
 
     @Override
-    public Iterable<Ticket> findUserTickets(UUID userId) {
-        return userRepository.findById(userId).get().getTickets();
+    @GraphQLQuery(name = "userById", description = "Get user by id")
+    public User findUserById(UUID id, @GraphQLEnvironment ResolutionEnvironment resolutionEnvironment) throws UserNotFoundException {
+        Stopwatch timer = Stopwatch.createStarted();
+        var user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id, User.class));
+        log.info("[findUserById] Method took: {}", timer.stop());
+        return user;
     }
 
     @Override
-    public User findUserById(UUID id) {
-        return null;
+    @GraphQLQuery(name = "tickets")
+    public Iterable<Ticket> findUserTickets(@GraphQLContext User user) {
+        Stopwatch timer = Stopwatch.createStarted();
+        var tickets = user.getTickets();
+        log.info("[findUserTickets] Method took: {}", timer.stop());
+        return tickets;
     }
 }
