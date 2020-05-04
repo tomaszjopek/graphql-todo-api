@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.2.6.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
+    id 'maven-publish'
 }
 
 group = 'pl.itj.dev'
@@ -11,6 +12,26 @@ sourceCompatibility = '11'
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifact("build/libs/todo-graphql-api-$version" + ".jar") {
+                extension 'jar'
+            }
+        }
+    }
+    repositories {
+        maven {
+            name 'nexus'
+            url "http://192.168.29.115:8081/repository/custom/"
+            credentials {
+                username "custom_repo"
+                password "dev"
+            }
+        }
     }
 }
 
