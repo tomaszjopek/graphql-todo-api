@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TodoGraphqlApiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(TodoGraphqlApiApplication.class, args);
+        SpringApplication.run(TodoGraphqlApiApplication.class);
     }
 
 }
