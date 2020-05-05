@@ -1,10 +1,7 @@
 package pl.itj.dev.todographqlapi.model;
 
-import io.leangen.graphql.annotations.GraphQLComplexity;
 import io.leangen.graphql.annotations.GraphQLQuery;
-import io.leangen.graphql.annotations.types.GraphQLDirective;
 import io.leangen.graphql.annotations.types.GraphQLType;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;

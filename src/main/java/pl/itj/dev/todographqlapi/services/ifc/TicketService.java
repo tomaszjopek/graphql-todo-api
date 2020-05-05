@@ -4,7 +4,6 @@ import pl.itj.dev.todographqlapi.exceptions.data.TicketNotFoundException;
 import pl.itj.dev.todographqlapi.model.Ticket;
 import pl.itj.dev.todographqlapi.model.User;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface TicketService {

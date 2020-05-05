@@ -1,6 +1,5 @@
 package pl.itj.dev.todographqlapi.errors;
 
-import com.google.common.collect.ImmutableMap;
 import graphql.ErrorType;
 import graphql.GraphQLError;
 import graphql.language.SourceLocation;
@@ -24,7 +23,7 @@ public class DataNotFoundError implements GraphQLError {
 
     @Override
     public List<SourceLocation> getLocations() {
-        return null;
+        return List.of();
     }
 
     @Override
