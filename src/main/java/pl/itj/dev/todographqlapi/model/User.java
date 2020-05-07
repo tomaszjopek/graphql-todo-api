@@ -10,7 +10,6 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -33,5 +32,5 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 10)
-    private Set<Ticket> tickets = new HashSet<>();
+    private Set<Ticket> tickets;
 }

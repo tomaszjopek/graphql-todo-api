@@ -1,6 +1,7 @@
 package pl.itj.dev.todographqlapi.model;
 
 import io.leangen.graphql.annotations.GraphQLEnumValue;
+import io.leangen.graphql.annotations.GraphQLId;
 import io.leangen.graphql.annotations.GraphQLQuery;
 import io.leangen.graphql.annotations.types.GraphQLType;
 import lombok.Getter;
@@ -19,7 +20,7 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Type(type = "uuid-char")
-    @GraphQLQuery(name = "id", description = "Ticket's id")
+    @GraphQLId
     private UUID id;
 
     @GraphQLQuery(name = "title", description = "Ticket's title")

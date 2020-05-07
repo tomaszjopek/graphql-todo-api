@@ -26,7 +26,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    @GraphQLQuery(name = "ticketById", description = "Get ticket by id")
+    @GraphQLQuery(name = "ticket", description = "Get ticket by id")
     public Ticket fetchTicketById(UUID id) throws TicketNotFoundException {
         Stopwatch timer = Stopwatch.createStarted();
         var ticket = ticketRepository.findById(id).orElseThrow(() -> new TicketNotFoundException(id, Ticket.class));

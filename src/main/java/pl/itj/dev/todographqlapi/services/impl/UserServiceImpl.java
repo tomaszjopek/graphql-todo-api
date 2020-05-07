@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @GraphQLQuery(name = "userById", description = "Get user by id")
+    @GraphQLQuery(name = "user", description = "Get user by id")
     public User findUserById(UUID id, @GraphQLEnvironment ResolutionEnvironment resolutionEnvironment) throws UserNotFoundException {
         Stopwatch timer = Stopwatch.createStarted();
         var user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id, User.class));
