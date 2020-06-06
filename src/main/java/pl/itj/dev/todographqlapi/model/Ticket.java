@@ -34,6 +34,11 @@ public class Ticket {
     @GraphQLEnumValue
     private Priority priority;
 
+    @Enumerated(EnumType.STRING)
+    @GraphQLQuery(name = "state", description = "Ticket's state")
+    @GraphQLEnumValue
+    private State state;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

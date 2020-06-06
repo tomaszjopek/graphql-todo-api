@@ -7,6 +7,7 @@ import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.itj.dev.todographqlapi.exceptions.data.TicketNotFoundException;
+import pl.itj.dev.todographqlapi.model.State;
 import pl.itj.dev.todographqlapi.model.Ticket;
 import pl.itj.dev.todographqlapi.model.User;
 import pl.itj.dev.todographqlapi.repositories.TicketRepository;
@@ -40,6 +41,15 @@ public class TicketServiceImpl implements TicketService {
         Stopwatch timer = Stopwatch.createStarted();
         var tickets = ticketRepository.findAll();
         log.info("[fetchAllTickets] Method took: {}", timer.stop());
+        return tickets;
+    }
+
+    @Override
+    @GraphQLQuery(name = "ticketsByState", description = "Get tickets by state")
+    public Iterable<Ticket> fetchTicketByState(State state) {
+        Stopwatch timer = Stopwatch.createStarted();
+        var tickets = ticketRepository.findAllByState(state);
+        log.info("[fetchTicketByState] Method took: {}", timer.stop());
         return tickets;
     }
 
