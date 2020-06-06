@@ -36,7 +36,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    @GraphQLQuery(name = "tickets", description = "Get all tickets")
+    @GraphQLQuery(name = "tickets", description = "Get all tickets s")
     public Iterable<Ticket> fetchAllTickets() {
         Stopwatch timer = Stopwatch.createStarted();
         var tickets = ticketRepository.findAll();
